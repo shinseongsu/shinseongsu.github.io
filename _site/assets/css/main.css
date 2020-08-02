@@ -652,8 +652,7 @@ input[type="button"]:active, input[type="submit"]:active, input[type="reset"]:ac
 	transform: translate(-50%,-50%);
 }
 .progress-text {
-  font-size: 36px;
-  font-weight: bold;
+	font-size: 36px;
 	position: absolute;
 	text-align: center;
 	top: 60%;

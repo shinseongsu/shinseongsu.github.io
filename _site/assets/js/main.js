@@ -120,10 +120,7 @@
 
 })(jQuery); */
 
-/*
-*	이미지 로딩
-*/
-$(document).ready(function() {
+$(document).ready(function(){
 	function imagesProgress(){
 		var $container = $("#progress"),
 			$progressBar = $container.find(".progress-bar"),
@@ -160,6 +157,6 @@ $(document).ready(function() {
 			
 		}	
 	}
-	
+
 	imagesProgress();
 });
