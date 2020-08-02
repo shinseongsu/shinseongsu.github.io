@@ -3,23 +3,74 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
-<title>Seongsu-gitgub page | 처음 만들어 보는 깃허브 페이지</title>
-<meta name="generator" content="Jekyll v4.0.0" />
-<meta property="og:title" content="Seongsu-gitgub page" />
-<meta property="og:locale" content="en_US" />
-<meta name="description" content="처음 만들어 보는 깃허브 페이지" />
-<meta property="og:description" content="처음 만들어 보는 깃허브 페이지" />
-<link rel="canonical" href="http://localhost:4000/" />
-<meta property="og:url" content="http://localhost:4000/" />
-<meta property="og:site_name" content="Seongsu-gitgub page" />
-<script type="application/ld+json">
-{"url":"http://localhost:4000/","headline":"Seongsu-gitgub page","description":"처음 만들어 보는 깃허브 페이지","name":"Seongsu-gitgub page","@type":"WebSite","@context":"https://schema.org"}</script>
-<!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Seongsu-gitgub page" /></head>
-<body><header class="site-header" role="banner">
+  <title>Seongsu-gitgub page</title>
+  <meta name="generator" content="Jekyll v4.0.0" />
+  <meta property="og:title" content="Seongsu-gitgub page" />
+  <meta property="og:locale" content="en_US" />
+  <meta name="description" content="처음 만들어 보는 깃허브 페이지" />
+  <meta property="og:description" content="처음 만들어 보는 깃허브 페이지" />
+  <link rel="canonical" href="http://localhost:4000/" />
+  <meta property="og:url" content="http://localhost:4000/" />
+  <meta property="og:site_name" content="Seongsu-gitgub page" />
+  <script type="application/ld+json">
+  {"url":"http://localhost:4000/","headline":"Seongsu-gitgub page","description":"처음 만들어 보는 깃허브 페이지","name":"Seongsu-gitgub page","@type":"WebSite","@context":"https://schema.org"}
+  </script>
 
+  <!-- css 리셋 -->
+  <link rel="stylesheet" href="assets/css/reset.css">
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Seongsu-gitgub page" />
+
+  <script type="text/javascript" src="assets/js/imagesloaded.pkgd.min.js"></script>
+  <script type="text/javascript" src="assets/js/jquery-1.12.4.js"></script>
+  <script type="text/javascript" src="assets/js/jquery-ui-1.12.1.min.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+
+      var $container = $("#progress"),
+		      $progressBar = $container.find(".progress-bar"),
+		      $progressText = $container.find(".progress-text"),
+		      imgLoad = imagesLoaded("body"),	
+		      imgTotal = imgLoad.images.length,	
+		      imgLoaded = 0,										
+		      current = 0,							
+          progressTimer = setInterval(updateProgress, 1000 / 60);
+      
+      imgLoad.on("progress", function(){
+		    imgLoaded++;
+      });
+      
+      function updateProgress(){
+		    var target = ( imgLoaded / imgTotal) * 100;
+		
+		    current += ( target - current) * 0.1;
+		    $progressText.text( Math.floor(current) + '%' );
+		
+		    if(current >= 100){
+			    clearInterval(progressTimer);
+			    $container.addClass("progress-complete");
+			    $progressBar.add($progressText)
+				              .delay(500)
+				              .animate({opacity: 0},250,function(){
+					                  $container.animate({top: '-100%'},1000,'easeInOutQuint');
+				              });
+			    $("body").addClass("active");
+        }
+        
+		    if(current > 99.9){
+			    current = 100;
+		    }
+		
+	    }	
+
+    });
+  </script>
+
+</head>
+<body>
+  <header class="site-header" role="banner">
   <div class="wrapper"><a class="site-title" rel="author" href="/">Seongsu-gitgub page</a><nav class="site-nav">
-        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+    <input type="checkbox" id="nav-trigger" class="nav-trigger" />
         <label for="nav-trigger">
           <span class="menu-icon">
             <svg viewBox="0 0 18 15" width="18px" height="15px">
@@ -27,10 +78,16 @@
             </svg>
           </span>
         </label>
-
         <div class="trigger"><a class="page-link" href="/about/">About</a></div>
       </nav></div>
-</header>
+  </header>
+
+  <!-- image Loader-->
+  <div class="progress" id ="progress">
+		<div class="progress-bar"><img src="assets/img/eyes-load.gif" alt="loadingGif"></div>
+		<span class="progress-text">0</span>
+	</div>
+
 <main class="page-content" aria-label="Content">
       <div class="wrapper">
         <div class="home">

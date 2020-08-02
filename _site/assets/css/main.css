@@ -283,3 +283,28 @@ table td { border: 1px solid #e8e8e8; }
 .highlight .il { color: #099; }
 
 /*# sourceMappingURL=main.css.map */
+
+/************************************* imgLoader ********************************************/
+.progress {
+	background: rgba(252,207,82,1);
+	color: #fff;
+	height: 100vh;
+	width: 100%;
+	position: absolute;	
+	z-index: 5000;
+}
+.progress-bar {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+}
+.progress-text {
+	font-size: 36px;
+	position: absolute;
+	text-align: center;
+	top: 60%;
+	left: 40%;
+	transform: translate(-40%,-60%);
+	width: 100%;
+}
