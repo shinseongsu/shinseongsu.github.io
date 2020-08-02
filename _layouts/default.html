@@ -8,6 +8,12 @@ Jekyll integration by Chris Bobbe | chrisbobbe.github.io
 <html>
 	{%- include head.html -%}
 	<body>
+		<div class="progress" id ="progress">
+			<div class="progress-bar"><img src="{{- 'assets/images/eyes-load.gif' | relative_url -}}" alt="loadingGif"></div>
+			<span class="progress-text">0</span>
+		</div>
+		<!-- image Loading bar -->
+
 		{{- content -}}
 		{%- include footer.html -%}
 	</body>
