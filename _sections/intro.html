@@ -37,31 +37,31 @@ const methods = [{
     merchantIdentifier: "merchant.com.example",
     merchantCapabilities: ["supports3DS", "supportsCredit", "supportsDebit"],
     supportedNetworks: ["amex", "discover", "masterCard", "visa"],
-    countryCode: "US"
+    countryCode: "KRW"
   }
 }];
 
 const details = {
   total: {
     label: "My Merchant",
-    amount: { value: "27.50", currency: "USD" }
+    amount: { value: "1000", currency: "KR" }
   },
   displayItems: [{
     label: "Tax",
-    amount: { value: "2.50", currency: "USD" }
+    amount: { value: "2000", currency: "KR" }
   }, {
     label: "Ground Shipping",
-    amount: { value: "5.00", currency: "USD" }
+    amount: { value: "5.00", currency: "KR" }
   }],
   shippingOptions: [{
     id: "ground",
     label: "Ground Shipping",
-    amount: { value: "5.00", currency: "USD" },
+    amount: { value: "5000", currency: "KR" },
     selected: true
   }, {
     id: "express",
     label: "Express Shipping",
-    amount: { value: "10.00", currency: "USD" }
+    amount: { value: "10000", currency: "KR" }
   }]
 };
 
