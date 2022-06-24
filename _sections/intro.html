@@ -27,56 +27,70 @@ order: 1
   </style>
   <apple-pay-button buttonstyle="black" type="plain" locale="en"></apple-pay-button>
 
-  <script>
-    document.querySelector("apple-pay-button").addEventListener("click", () => {
-
-const methods = [{
-  supportedMethods: "https://apple.com/apple-pay",
-  data: {
-    version: 3,
-    merchantIdentifier: "merchant.com.example",
-    merchantCapabilities: ["supports3DS", "supportsCredit", "supportsDebit"],
-    supportedNetworks: ["amex", "discover", "masterCard", "visa"],
-    countryCode: "KRW"
-  }
-}];
-
-const details = {
-  total: {
-    label: "My Merchant",
-    amount: { value: "1000", currency: "KR" }
-  },
-  displayItems: [{
-    label: "Tax",
-    amount: { value: "2000", currency: "KR" }
-  }, {
-    label: "Ground Shipping",
-    amount: { value: "5.00", currency: "KR" }
-  }],
-  shippingOptions: [{
-    id: "ground",
-    label: "Ground Shipping",
-    amount: { value: "5000", currency: "KR" },
-    selected: true
-  }, {
-    id: "express",
-    label: "Express Shipping",
-    amount: { value: "10000", currency: "KR" }
-  }]
-};
-
-const options = {
-  requestPayerName: true,
-  requestPayerEmail: true,
-  requestPayerPhone: true,
-  requestShipping: true,
-  shippingType: "shipping"
-};
-
-const pr = new PaymentRequest(methods, details, options);
-
-pr.show();
-
+  <script>function onApplePayButtonClicked() {
+    if (!ApplePaySession) return;
+    // Define ApplePayPaymentRequest
+    const request = {
+        countryCode: "KR",
+        currencyCode: "KRW",
+        merchantCapabilities: [
+            "supports3DS"
+        ],
+        supportedNetworks: [
+            "visa",
+            "masterCard",
+            "amex",
+            "discover"
+        ],
+        total: {
+            label: "Demo (Card is not charged)",
+            type: "final",
+            amount: "2000"
+        }
+    };
+    // Create ApplePaySession
+    const session = new ApplePaySession(3, request);
+    console.log(session);
+    session.onvalidatemerchant = async (event)=>{
+        // Call your own server to request a new merchant session.
+        const merchantSession = await validateMerchant();
+        session.completeMerchantValidation(merchantSession);
+    };
+    session.onpaymentmethodselected = (event)=>{
+        // Define ApplePayPaymentMethodUpdate based on the selected payment method.
+        // No updates or errors are needed, pass an empty object.
+        const update = {
+        };
+        session.completePaymentMethodSelection(update);
+    };
+    session.onshippingmethodselected = (event)=>{
+        // Define ApplePayShippingMethodUpdate based on the selected shipping method.
+        // No updates or errors are needed, pass an empty object.
+        const update = {
+        };
+        session.completeShippingMethodSelection(update);
+    };
+    session.onshippingcontactselected = (event)=>{
+        // Define ApplePayShippingContactUpdate based on the selected shipping contact.
+        const update = {
+        };
+        session.completeShippingContactSelection(update);
+    };
+    session.onpaymentauthorized = (event)=>{
+        // Define ApplePayPaymentAuthorizationResult
+        const result = {
+            status: ApplePaySession.STATUS_SUCCESS
+        };
+        session.completePayment(result);
+    };
+    session.oncancel = (event)=>{
+    // Payment cancelled by WebKit
+    };
+    session.begin();
+}
+document.getElementById('applePay').addEventListener('click', ()=>{
+    console.log('clickd');
+    onApplePayButtonClicked();
 });
 
   </script>
