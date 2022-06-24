@@ -12,21 +12,71 @@ order: 1
   <p>Adapted for Jekyll by <a href=https://chrisbobbe.github.io/>Chris Bobbe</a>. Get started on <a href="https://github.com/chrisbobbe/jekyll-theme-prologue">GitHub!</a></p>
 </header>
 
-<footer>
-  <a href="#portfolio" class="button scrolly">Magna Aliquam</a>
-</footer>
-
 
 <script src="https://applepay.cdn-apple.com/jsapi/v1/apple-pay-sdk.js"></script>
 
 
 <style>
   apple-pay-button {
-    --apple-pay-button-width: 150px;
-    --apple-pay-button-height: 30px;
+    --apple-pay-button-width: 3000px;
+    --apple-pay-button-height: 60px;
     --apple-pay-button-border-radius: 3px;
     --apple-pay-button-padding: 0px 0px;
     --apple-pay-button-box-sizing: border-box;
   }
   </style>
   <apple-pay-button buttonstyle="black" type="plain" locale="en"></apple-pay-button>
+
+  <script>
+    document.querySelector("apple-pay-button").addEventListener("click", () => {
+
+const methods = [{
+  supportedMethods: "https://apple.com/apple-pay",
+  data: {
+    version: 3,
+    merchantIdentifier: "merchant.com.example",
+    merchantCapabilities: ["supports3DS", "supportsCredit", "supportsDebit"],
+    supportedNetworks: ["amex", "discover", "masterCard", "visa"],
+    countryCode: "US"
+  }
+}];
+
+const details = {
+  total: {
+    label: "My Merchant",
+    amount: { value: "27.50", currency: "USD" }
+  },
+  displayItems: [{
+    label: "Tax",
+    amount: { value: "2.50", currency: "USD" }
+  }, {
+    label: "Ground Shipping",
+    amount: { value: "5.00", currency: "USD" }
+  }],
+  shippingOptions: [{
+    id: "ground",
+    label: "Ground Shipping",
+    amount: { value: "5.00", currency: "USD" },
+    selected: true
+  }, {
+    id: "express",
+    label: "Express Shipping",
+    amount: { value: "10.00", currency: "USD" }
+  }]
+};
+
+const options = {
+  requestPayerName: true,
+  requestPayerEmail: true,
+  requestPayerPhone: true,
+  requestShipping: true,
+  shippingType: "shipping"
+};
+
+const pr = new PaymentRequest(methods, details, options);
+
+pr.show();
+
+});
+
+  </script>
