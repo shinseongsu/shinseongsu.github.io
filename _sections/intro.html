@@ -16,7 +16,7 @@ order: 1
 <script src="https://applepay.cdn-apple.com/jsapi/v1/apple-pay-sdk.js"></script>
 
 
-<style>
+  <style>
   apple-pay-button {
     --apple-pay-button-width: 300px;
     --apple-pay-button-height: 60px;
@@ -24,73 +24,118 @@ order: 1
     --apple-pay-button-padding: 0px 0px;
     --apple-pay-button-box-sizing: border-box;
   }
-  </style>
-  <apple-pay-button id="applePay" buttonstyle="black" type="plain" locale="en"></apple-pay-button>
 
-  <script>function onApplePayButtonClicked() {
-    if (!ApplePaySession) return;
-    // Define ApplePayPaymentRequest
-    const request = {
-        countryCode: "KR",
-        currencyCode: "KRW",
-        merchantCapabilities: [
-            "supports3DS"
-        ],
-        supportedNetworks: [
-            "visa",
-            "masterCard",
-            "amex",
-            "discover"
-        ],
-        total: {
-            label: "Demo (Card is not charged)",
-            type: "final",
-            amount: "2000"
-        }
-    };
-    // Create ApplePaySession
-    const session = new ApplePaySession(3, request);
-    console.log(session);
-    session.onvalidatemerchant = async (event)=>{
-        // Call your own server to request a new merchant session.
-        const merchantSession = await validateMerchant();
-        session.completeMerchantValidation(merchantSession);
-    };
-    session.onpaymentmethodselected = (event)=>{
-        // Define ApplePayPaymentMethodUpdate based on the selected payment method.
-        // No updates or errors are needed, pass an empty object.
-        const update = {
+  #payDiv {
+      position: flex;
+      flex-direction: row;
+  }
+  </style>
+  
+  <div id="payDiv">
+    <apple-pay-button id="applePay" buttonstyle="black" type="plain" locale="en"></apple-pay-button>
+    <apple-pay-button id="applePay2" buttonstyle="black" type="plain" locale="en"></apple-pay-button>
+  </div>
+
+  <script>
+    function buttonClick(){
+        if (window.ApplePaySession) {
+            var merchantIdentifier = 'example.com.store';
+            var promise = ApplePaySession.canMakePaymentsWithActiveCard(merchantIdentifier);
+            promise.then(function (canMakePayments) {
+                if (canMakePayments) {
+                    // Display Apple Pay Buttons here…
+                } else {
+                    // Check for the existence of the openPaymentSetup method.
+                    if (ApplePaySession.openPaymentSetup) {
+                        // Display the Set up Apple Pay Button here…             
+                        ApplePaySession.openPaymentSetup(merchantIdentifier)
+                        .then(function(success) {
+                            if (success) {
+                                // Open payment setup successful
+                            } else {
+                                // Open payment setup failed
+                            }
+                        })
+                        .catch(function(e) {
+                            // Open payment setup error handling
+                        });
+                    }
+                }
+            }); 
+            }
+    }
+
+    document.getElementById('applePay2').addEventListener('click', ()=>{
+        console.log('clickd');
+        buttonClick();
+    });
+
+    function onApplePayButtonClicked() {
+        if (!ApplePaySession) return;
+        // Define ApplePayPaymentRequest
+        const request = {
+            countryCode: "US",
+            currencyCode: "USD",
+            merchantCapabilities: [
+                "supports3DS"
+            ],
+            supportedNetworks: [
+                "visa",
+                "masterCard",
+                "amex",
+                "discover"
+            ],
+            total: {
+                label: "Demo (Card is not charged)",
+                type: "final",
+                amount: "2000"
+            }
         };
-        session.completePaymentMethodSelection(update);
-    };
-    session.onshippingmethodselected = (event)=>{
-        // Define ApplePayShippingMethodUpdate based on the selected shipping method.
-        // No updates or errors are needed, pass an empty object.
-        const update = {
+        // 세션 생성
+        const session = new ApplePaySession(3, request);
+        console.log(session);
+        // 지불 명세서를 표시할 때 시스템이 호출하는 이벤트 핸들러
+        session.onvalidatemerchant = async (event)=>{
+            const merchantSession = await validateMerchant();
+            session.completeMerchantValidation(merchantSession);
         };
-        session.completeShippingMethodSelection(update);
-    };
-    session.onshippingcontactselected = (event)=>{
-        // Define ApplePayShippingContactUpdate based on the selected shipping contact.
-        const update = {
+        // 사용자가 새 결제 수단을 선택할 때 호출
+        session.onpaymentmethodselected = (event)=>{
+            const update = {
+            };
+            // 30초 시간 초과 전에 호출하여 응답
+            session.completePaymentMethodSelection(update);
         };
-        session.completeShippingContactSelection(update);
-    };
-    session.onpaymentauthorized = (event)=>{
-        // Define ApplePayPaymentAuthorizationResult
-        const result = {
-            status: ApplePaySession.STATUS_SUCCESS
+        // 사용자가 배송 방법을 선택할 때 호출할 이벤트 핸들러
+        session.onshippingmethodselected = (event)=>{
+            const update = {
+            };
+            // 30초 시간 초과 전에 호출하여 응답
+            session.completeShippingMethodSelection(update);
         };
-        session.completePayment(result);
-    };
-    session.oncancel = (event)=>{
-    // Payment cancelled by WebKit
-    };
-    session.begin();
-}
-document.getElementById('applePay').addEventListener('click', ()=>{
-    console.log('clickd');
-    onApplePayButtonClicked();
-});
+        // 사용자가 지불 명세서에서 배송 연락처를 선택할 때 호출할 이벤트
+        session.onshippingcontactselected = (event)=>{
+            // Define ApplePayShippingContactUpdate based on the selected shipping contact.
+            const update = {
+            };
+            session.completeShippingContactSelection(update);
+        };
+        // 사용자가 Touch ID, Face ID 또는 암호로 Apple Pay 결제를 승인할 때 시스템이 호출하는 이벤트 
+        session.onpaymentauthorized = (event)=>{
+            const result = {
+                status: ApplePaySession.STATUS_SUCCESS
+            };
+            session.completePayment(result);
+        };
+        // 결제 UI가 닫힐 때 자동으로 호출되는 이벤트 핸들러
+        session.oncancel = (event)=>{
+        // Payment cancelled by WebKit
+        };
+        session.begin();
+    }
+    document.getElementById('applePay').addEventListener('click', ()=>{
+        console.log('clickd');
+        onApplePayButtonClicked();
+    });
 
   </script>
