@@ -141,7 +141,11 @@ order: 1
         console.log(session);
         // 지불 명세서를 표시할 때 시스템이 호출하는 이벤트 핸들러
         session.onvalidatemerchant = async (event)=>{
+            console.log("onvalidatemerchant ===> " + event);
+
             const merchantSession = await validateMerchant();
+            console.log(merchantSession);
+            
             session.completeMerchantValidation(merchantSession);
         };
         // 사용자가 새 결제 수단을 선택할 때 호출
@@ -167,7 +171,7 @@ order: 1
         };
         // 사용자가 Touch ID, Face ID 또는 암호로 Apple Pay 결제를 승인할 때 시스템이 호출하는 이벤트 
         session.onpaymentauthorized = (event)=>{
-            alert(event);
+            console.log(event);
 
             const result = {
                 status: ApplePaySession.STATUS_SUCCESS
