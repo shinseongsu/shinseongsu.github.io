@@ -63,242 +63,238 @@ order: 1
   </div>
 
   <script>
-    function applePaySession() {
-        const ApplePayPaymentRequest = {
-            // 가맹점 기능 - 필수
-            merchantCapabilities : [
-                "supports3DS",
-                // China Union Pay 거래시 "supportsEMV",
-                // 신용카드 만  "supportsCredit",
-                // 직불카드 만  "supportsDebit"
-            ],
-            // 지원되는 네트워크 (최대한 낮은 것을 쓰는 것이 브라우저 호환성에 좋다.) - 필수
-            supportedNetworks: [
-                "amex", // 1
-              //  "cartesBancaires", // 4
-                "chinaUnionPay",  // 1
-                "discover",         // 1
-             //   "eftpos",           // 4
-             //   "electron",     // 4
-             //   "elo",          // 5
-             //   "girocard",     // 11
-             //   "interac",      // 1
-             //   "jcb",          // 2
-             //   "mada",         // 5
-             //   "maestro",      // 4
-                "masterCard",   // 1
-             //   "mir",          // 11
-             //   "privateLabel", // 1
-                "visa",         // 1
-             //   "vPay"          // 4
-            ],
-            // 국가 코드 - 필수
-            countryCode: "US",
-            // 지불 요청에서 연락처 정보를 요청하기 위한 필드
-            requiredBillingContactFields: [
-                "email",
-                "name",
-                "phone",
-                "postalAddress",
-                // 3번전 부터 "phoneticName"
-            ],
-            // 청구 및 배송 연락처 정보에 사용할 연락처 정보 필드입니다. - 3버전 부터
-            billingContact: {
-                phoneNumber: "01020834409",  // 연락처 전화번호
-                emailAddress: "tlstjdtn321@naver.com",  // 연락처의 이메일 주소
-                givenName: "성수",        // 연락처의 이름,
-                familyName: "신",       // 연락처의 성입니다.
-                phoneticGivenName: "성수",  // 연락처 이름의 음성 철자입니다. - 3버전부터
-                phoneticFamilyName: "신",   // 연락처 성의 음성 철자입니다.  - 3번전부터
-                addressLines: [],       // 연락처 주소의 거리 부분
-                subLocality: "경기도",           // 일반적으로 우편 주소에서 도시 또는 마을 수준
-                locality: "화성시",     // 소재지
-                postalCode: "18321",     // 우편번호
-                subAdministrativeArea: "",  // 우편 주소의 하위 행정 구역
-                administrativeArea: "",   // 행정구역
-                country: "korea",   // 국가
-                countryCode: "KR"     // 국가 코드
-            },
-            // 배송 정보
-            requiredShippingContactFields: [
-                "email",
-                "name",
-                "phone",
-                "postalAddress",
-                // 3번전 부터 "phoneticName"        
-            ],
-            // 배송 정보
-            shippingContact: {
-                phoneNumber: "01020834409",  // 연락처 전화번호
-                emailAddress: "tlstjdtn321@naver.com",  // 연락처의 이메일 주소
-                givenName: "성수",        // 연락처의 이름,
-                familyName: "신",       // 연락처의 성입니다.
-                phoneticGivenName: "성수",  // 연락처 이름의 음성 철자입니다. - 3버전부터
-                phoneticFamilyName: "신",   // 연락처 성의 음성 철자입니다.  - 3번전부터
-                addressLines: [],       // 연락처 주소의 거리 부분
-                subLocality: "경기도",           // 일반적으로 우편 주소에서 도시 또는 마을 수준
-                locality: "화성시",     // 소재지
-                postalCode: "18321",     // 우편번호
-                subAdministrativeArea: "",  // 우편 주소의 하위 행정 구역
-                administrativeArea: "",   // 행정구역
-                country: "korea",   // 국가
-                countryCode: "KR"     // 국가 코드
-            },
-            // 애애플리케이션별 데이터에 대한 Base64 인코딩 문자열입니다.
-            applicationData: '',
-            // 특정 국가 또는 지역의 카드로 지불을 제한하기 위한 2자리 국가 코드 목록입니다.
-            supportedCountries: "KR",
-            // true쿠폰 코드 필드를 표시하려면 값을 로 설정하십시오 .
-            supportsCouponCode: true,
-            // 초기 쿠폰이 없음을 나타내려면 값을 문자열로 설정하십시오
-            couponCode: '',
-            // 배송 모드에서 사용자가 배송 주소 필드를 편집할 수 없는지 여부를 나타내는 값입니다.
-            // “enabled” - 사용자는 지불 시트에서 배송 연락처를 편집할 수 있습니다. 
-            // “storePickup” - 사용자는 지불 명세서에서 배송 연락처를 편집할 수 없습니다.
-            shippingContactEditingMode: "enabled",
-            // 지불 총액을 나타내는 항목입니다. - 필수
-            total: {
-                // 최종 또는 보류 중
-                // final - 알려진 최종 비용을 나타내는 항목입니다.
-                // pending - 예상 비용 또는 알 수 없는 비용을 나타내는 항목입니다.
-                type: "final",
-                // 상품명
-                label: "Mac Pro 16",
-                amount: "20.00",
-                // 지불 시기
-                // "immediate" - 트랜잭션이 완료될 때 지불이 발생하도록 지정하는 값입니다.
-                // "recurring" - 지불이 정기적으로 발생함을 지정하는 값입니다.
-                // "deferred" - 지불이 미래에 발생하도록 지정하는 값입니다.
-                // "automaticReload" - 계정이 금액 아래로 떨어질 때 지불이 자동으로 발생하도록 지정하는 값입니다
-                paymentTiming: "immediate",
-                // 첫번쨰 지불 날짜
-                // recurringPaymentStartDate: new Date("2022-01-01T00:00:00"),
-                // 반복 날짜
-                // year - 연도, month - 월 단위, day - 일 단위, hour - 시간 단위, minute - 분 단위
-                // recurringPaymentIntervalUnit : "month",
-                // 총 지불 간격을 구성하는 간격 단위의 수입니다.
-                //recurringPaymentIntervalCount: 6,
-                // 최종 결제일
-                // recurringPaymentEndDate: new Date("2024-01-01T00:00:00"),
-                // 미래 지불
-                // deferredPaymentDate: new Date("2023-07-01T00:00:00"),
-                // 판매자가 자동 ​​재충전 금액을 적용하기 전에 계정 잔액이 도달합니다.
-                // automaticReloadPaymentThresholdAmount: ''
-            },
-            // 반복 결제와 추가 요금 및 할인을 설명하는 일련의 항목입니다.
-            lineItems: [
-                // total 과 같은 class 사용
-                {
-                    label: "Bag Subtotal",
-                    type: "final",
-                    amount: "35.00"
-                },
-                {
-                    label: "Free Shipping",
-                    amount: "0.00",
-                    type: "final"
-                },
-                {
-                    label: "Estimated Tax",
-                    amount: "3.06",
-                    type: "final"
-                }
-            ],
-            // 통화 코드 - 필수
-            currencyCode: "USD",
-            // 배송 유형 - shipping, delivery, storePickup, servicePickup
-            shippingType: "shipping",
-            // 배송 방법
-            ApplePayShippingMethod: {
-                // 배송 방법 간략 - 필수
-                label: "Free Shipping",
-                // 배송 방법 추가 설명 - 필수
-                detail: "Arrives in 5 to 7 days",
-                // 이 배송 방법과 관련된 음수가 아닌 비용입니다. - 필수
-                amount: "0.00", 
-                // 이 배송 방법을 식별하는 데 사용되는 클라이언트 정의 값입니다. - 필수
-                identifier: "FreeShip"
-            }
-        };
-        const session = new ApplePaySession(3, ApplePayPaymentRequest);
+    // function applePaySession() {
+    //     const ApplePayPaymentRequest = {
+    //         // 가맹점 기능 - 필수
+    //         merchantCapabilities : [
+    //             "supports3DS",
+    //             // China Union Pay 거래시 "supportsEMV",
+    //             // 신용카드 만  "supportsCredit",
+    //             // 직불카드 만  "supportsDebit"
+    //         ],
+    //         // 지원되는 네트워크 (최대한 낮은 것을 쓰는 것이 브라우저 호환성에 좋다.) - 필수
+    //         supportedNetworks: [
+    //             "amex", // 1
+    //           //  "cartesBancaires", // 4
+    //             "chinaUnionPay",  // 1
+    //             "discover",         // 1
+    //          //   "eftpos",           // 4
+    //          //   "electron",     // 4
+    //          //   "elo",          // 5
+    //          //   "girocard",     // 11
+    //          //   "interac",      // 1
+    //          //   "jcb",          // 2
+    //          //   "mada",         // 5
+    //          //   "maestro",      // 4
+    //             "masterCard",   // 1
+    //          //   "mir",          // 11
+    //          //   "privateLabel", // 1
+    //             "visa",         // 1
+    //          //   "vPay"          // 4
+    //         ],
+    //         // 국가 코드 - 필수
+    //         countryCode: "US",
+    //         // 지불 요청에서 연락처 정보를 요청하기 위한 필드
+    //         requiredBillingContactFields: [
+    //             "email",
+    //             "name",
+    //             "phone",
+    //             "postalAddress",
+    //             // 3번전 부터 "phoneticName"
+    //         ],
+    //         // 청구 및 배송 연락처 정보에 사용할 연락처 정보 필드입니다. - 3버전 부터
+    //         billingContact: {
+    //             phoneNumber: "01020834409",  // 연락처 전화번호
+    //             emailAddress: "tlstjdtn321@naver.com",  // 연락처의 이메일 주소
+    //             givenName: "성수",        // 연락처의 이름,
+    //             familyName: "신",       // 연락처의 성입니다.
+    //             phoneticGivenName: "성수",  // 연락처 이름의 음성 철자입니다. - 3버전부터
+    //             phoneticFamilyName: "신",   // 연락처 성의 음성 철자입니다.  - 3번전부터
+    //             addressLines: [],       // 연락처 주소의 거리 부분
+    //             subLocality: "경기도",           // 일반적으로 우편 주소에서 도시 또는 마을 수준
+    //             locality: "화성시",     // 소재지
+    //             postalCode: "18321",     // 우편번호
+    //             subAdministrativeArea: "",  // 우편 주소의 하위 행정 구역
+    //             administrativeArea: "",   // 행정구역
+    //             country: "korea",   // 국가
+    //             countryCode: "KR"     // 국가 코드
+    //         },
+    //         // 배송 정보
+    //         requiredShippingContactFields: [
+    //             "email",
+    //             "name",
+    //             "phone",
+    //             "postalAddress",
+    //             // 3번전 부터 "phoneticName"        
+    //         ],
+    //         // 배송 정보
+    //         shippingContact: {
+    //             phoneNumber: "01020834409",  // 연락처 전화번호
+    //             emailAddress: "tlstjdtn321@naver.com",  // 연락처의 이메일 주소
+    //             givenName: "성수",        // 연락처의 이름,
+    //             familyName: "신",       // 연락처의 성입니다.
+    //             phoneticGivenName: "성수",  // 연락처 이름의 음성 철자입니다. - 3버전부터
+    //             phoneticFamilyName: "신",   // 연락처 성의 음성 철자입니다.  - 3번전부터
+    //             addressLines: [],       // 연락처 주소의 거리 부분
+    //             subLocality: "경기도",           // 일반적으로 우편 주소에서 도시 또는 마을 수준
+    //             locality: "화성시",     // 소재지
+    //             postalCode: "18321",     // 우편번호
+    //             subAdministrativeArea: "",  // 우편 주소의 하위 행정 구역
+    //             administrativeArea: "",   // 행정구역
+    //             country: "korea",   // 국가
+    //             countryCode: "KR"     // 국가 코드
+    //         },
+    //         // 애애플리케이션별 데이터에 대한 Base64 인코딩 문자열입니다.
+    //         applicationData: '',
+    //         // 특정 국가 또는 지역의 카드로 지불을 제한하기 위한 2자리 국가 코드 목록입니다.
+    //         supportedCountries: "KR",
+    //         // true쿠폰 코드 필드를 표시하려면 값을 로 설정하십시오 .
+    //         supportsCouponCode: true,
+    //         // 초기 쿠폰이 없음을 나타내려면 값을 문자열로 설정하십시오
+    //         couponCode: '',
+    //         // 배송 모드에서 사용자가 배송 주소 필드를 편집할 수 없는지 여부를 나타내는 값입니다.
+    //         // “enabled” - 사용자는 지불 시트에서 배송 연락처를 편집할 수 있습니다. 
+    //         // “storePickup” - 사용자는 지불 명세서에서 배송 연락처를 편집할 수 없습니다.
+    //         shippingContactEditingMode: "enabled",
+    //         // 지불 총액을 나타내는 항목입니다. - 필수
+    //         total: {
+    //             // 최종 또는 보류 중
+    //             // final - 알려진 최종 비용을 나타내는 항목입니다.
+    //             // pending - 예상 비용 또는 알 수 없는 비용을 나타내는 항목입니다.
+    //             type: "final",
+    //             // 상품명
+    //             label: "Mac Pro 16",
+    //             amount: "20.00",
+    //             // 지불 시기
+    //             // "immediate" - 트랜잭션이 완료될 때 지불이 발생하도록 지정하는 값입니다.
+    //             // "recurring" - 지불이 정기적으로 발생함을 지정하는 값입니다.
+    //             // "deferred" - 지불이 미래에 발생하도록 지정하는 값입니다.
+    //             // "automaticReload" - 계정이 금액 아래로 떨어질 때 지불이 자동으로 발생하도록 지정하는 값입니다
+    //             paymentTiming: "immediate",
+    //             // 첫번쨰 지불 날짜
+    //             // recurringPaymentStartDate: new Date("2022-01-01T00:00:00"),
+    //             // 반복 날짜
+    //             // year - 연도, month - 월 단위, day - 일 단위, hour - 시간 단위, minute - 분 단위
+    //             // recurringPaymentIntervalUnit : "month",
+    //             // 총 지불 간격을 구성하는 간격 단위의 수입니다.
+    //             //recurringPaymentIntervalCount: 6,
+    //             // 최종 결제일
+    //             // recurringPaymentEndDate: new Date("2024-01-01T00:00:00"),
+    //             // 미래 지불
+    //             // deferredPaymentDate: new Date("2023-07-01T00:00:00"),
+    //             // 판매자가 자동 ​​재충전 금액을 적용하기 전에 계정 잔액이 도달합니다.
+    //             // automaticReloadPaymentThresholdAmount: ''
+    //         },
+    //         // 반복 결제와 추가 요금 및 할인을 설명하는 일련의 항목입니다.
+    //         lineItems: [
+    //             // total 과 같은 class 사용
+    //             {
+    //                 label: "Bag Subtotal",
+    //                 type: "final",
+    //                 amount: "35.00"
+    //             },
+    //             {
+    //                 label: "Free Shipping",
+    //                 amount: "0.00",
+    //                 type: "final"
+    //             },
+    //             {
+    //                 label: "Estimated Tax",
+    //                 amount: "3.06",
+    //                 type: "final"
+    //             }
+    //         ],
+    //         // 통화 코드 - 필수
+    //         currencyCode: "USD",
+    //         // 배송 유형 - shipping, delivery, storePickup, servicePickup
+    //         shippingType: "shipping",
+    //         // 배송 방법
+    //         ApplePayShippingMethod: {
+    //             // 배송 방법 간략 - 필수
+    //             label: "Free Shipping",
+    //             // 배송 방법 추가 설명 - 필수
+    //             detail: "Arrives in 5 to 7 days",
+    //             // 이 배송 방법과 관련된 음수가 아닌 비용입니다. - 필수
+    //             amount: "0.00", 
+    //             // 이 배송 방법을 식별하는 데 사용되는 클라이언트 정의 값입니다. - 필수
+    //             identifier: "FreeShip"
+    //         }
+    //     };
+    //     const session = new ApplePaySession(3, ApplePayPaymentRequest);
 
-        session.begin();
+    //     session.begin();
 
-        // 지불 명세서
-        session.onvalidatemerchant = (event) => {
-            console.log(event);
-            console.log(event.validationURL);
-        };
+    //     // 지불 명세서
+    //     session.onvalidatemerchant = (event) => {
+    //         console.log(event);
+    //         console.log(event.validationURL);
+    //     };
 
-        // 새 결제 수단 선택
-        session.onpaymentmethodselected = (event) => {
-            console.log(event);
-            console.log(event.paymentMethod);
-        }
+    //     // 새 결제 수단 선택
+    //     session.onpaymentmethodselected = (event) => {
+    //         console.log(event);
+    //         console.log(event.paymentMethod);
+    //     }
 
-        // 결제 승인
-        session.onpaymentauthorized = (event) => {
-            console.log(event);
-            console.log(event.payment);
+    //     // 결제 승인
+    //     session.onpaymentauthorized = (event) => {
+    //         console.log(event);
+    //         console.log(event.payment);
 
-            const result = {
-                status: ApplePaySession.STATUS_SUCCESS
-            };
-            session.completePayment(result);
-        }
+    //         const result = {
+    //             status: ApplePaySession.STATUS_SUCCESS
+    //         };
+    //         session.completePayment(result);
+    //     }
 
-        // 창 닫힘
-        session.oncancel = () => {
-            console.log("창 닫힘");
+    //     // 창 닫힘
+    //     session.oncancel = () => {
+    //         console.log("창 닫힘");
 
-            // 세션 종료
-            session.abort();
-        }
-    }  
+    //         // 세션 종료
+    //         session.abort();
+    //     }
+    // }  
 
 
-    function onApplePayButtonClicked() {
-        if(window.ApplePaySession) {
-            var merchantIdentifier = 'com.bwc.took';
-            var promise = ApplePaySession.canMakePaymentsWithActiveCard(merchantIdentifier);
+    // function onApplePayButtonClicked() {
+    //     if(window.ApplePaySession) {
+    //         var merchantIdentifier = 'com.bwc.took';
+    //         var promise = ApplePaySession.canMakePaymentsWithActiveCard(merchantIdentifier);
 
-            promise.then((canMakePayments) => {
-                if (canMakePayments) {
-                    console.log(canMakePayments);
-                } else {
-                    // 지불 수단 열기
-                    if (ApplePaySession.openPaymentSetup) {
-                        ApplePaySession.openPaymentSetup(merchantIdentifier)
-                            .then(function(success) {
-                                if(success) {
-                                    console.log('설정 열기 성공');
-                                } else {
-                                    console.log('설정 열기 실패');
-                                }
+    //         promise.then((canMakePayments) => {
+    //             if (canMakePayments) {
+    //                 console.log(canMakePayments);
+    //             } else {
+    //                 // 지불 수단 열기
+    //                 if (ApplePaySession.openPaymentSetup) {
+    //                     ApplePaySession.openPaymentSetup(merchantIdentifier)
+    //                         .then(function(success) {
+    //                             if(success) {
+    //                                 console.log('설정 열기 성공');
+    //                             } else {
+    //                                 console.log('설정 열기 실패');
+    //                             }
                                 
-                            }).catch(function(e) {
-                                console.log(e + "에러가 발생하였습니다.");
-                            })  
-                    }    
+    //                         }).catch(function(e) {
+    //                             console.log(e + "에러가 발생하였습니다.");
+    //                         })  
+    //                 }    
 
-                    console.log(canMakePayments);
-                }
-                applePaySession();
-            });
+    //                 console.log(canMakePayments);
+    //             }
+    //             applePaySession();
+    //         });
 
-            promise.catch((error) => {
-                console.log(error);
-                console.log("promise 중 에러가 발생하였습니다.");
-            });
+    //         promise.catch((error) => {
+    //             console.log(error);
+    //             console.log("promise 중 에러가 발생하였습니다.");
+    //         });
 
-        } else {
-            alert("ApplePaySession이 session이 존재 하지 않다.");
-        }
-        
-
-        
-
-    }
+    //     } else {
+    //         alert("ApplePaySession이 session이 존재 하지 않다.");
+    //     }
+    // }
 
 
     function onApplePayButtonClicked2() {
