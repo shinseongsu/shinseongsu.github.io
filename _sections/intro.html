@@ -63,100 +63,114 @@ order: 1
 
   <script>
     function onApplePayButtonClicked() {
-        if (!ApplePaySession) return;
+        if(window.ApplePaySession) {
+            alert("ApplePaySession이 session 이 존재 한다.");
 
-        if (!window.ApplePaySession) {
-            alert("애플 페이 지원 가능한 모델이 아닙니다.");
-            return;
+            var merchantIdentifier = 'example.com.store';
+            var promise = ApplePaySession.canMakePaymentsWithActiveCard(merchantIdentifier);
+
+            console.log(promise);
+            console.log("====> canMakePaymentsWithActiveCard 사용 가능");
+
+        } else {
+            alert("ApplePaySession이 session이 존재 하지 않다.");
         }
 
-        var merchantIdentifier = 'example.com.store';
-        var promise = ApplePaySession.canMakePaymentsWithActiveCard(merchantIdentifier);
 
-        promise.then(function (canMakePayments) {
-            // Define ApplePayPaymentRequest
-            const request = {
-                countryCode: "US",
-                currencyCode: "USD",
-                merchantCapabilities: [
-                    "supports3DS"
-                ],
-                supportedNetworks: [
-                    "visa",
-                    "masterCard",
-                    "amex",
-                    "discover"
-                ],
-                total: {
-                    label: "Demo (Card is not charged)",
-                    type: "final",
-                    amount: "2000"
-                },
-                lineItems: [
-                    {
-                        "label": "Bag Subtotal",
-                        "type": "final",
-                        "amount": "35.00"
-                    },
-                    {
-                        "label": "Free Shipping",
-                        "amount": "0.00",
-                        "type": "final"
-                    },
-                    {
-                        "label": "Estimated Tax",
-                        "amount": "3.06",
-                        "type": "final"
-                    }
-                ]
-            };
+        // if (!ApplePaySession) return;
 
-            const session = new ApplePaySession(3, request);
-            console.log(session);
-            // 지불 명세서를 표시할 때 시스템이 호출하는 이벤트 핸들러
-            session.onvalidatemerchant = async (event)=>{
-                console.log("onvalidatemerchant ===> " + event);
+        // if (!window.ApplePaySession) {
+        //     alert("애플 페이 지원 가능한 모델이 아닙니다.");
+        //     return;
+        // }
 
-                session.completeMerchantValidation(session);
-            };
-            // 사용자가 새 결제 수단을 선택할 때 호출
-            session.onpaymentmethodselected = (event)=>{
-                const update = {
-                };
-                // 30초 시간 초과 전에 호출하여 응답
-                session.completePaymentMethodSelection(update);
-            };
-            // 사용자가 배송 방법을 선택할 때 호출할 이벤트 핸들러
-            session.onshippingmethodselected = (event)=>{
-                const update = {
-                };
-                // 30초 시간 초과 전에 호출하여 응답
-                session.completeShippingMethodSelection(update);
-            };
-            // 사용자가 지불 명세서에서 배송 연락처를 선택할 때 호출할 이벤트
-            session.onshippingcontactselected = (event)=>{
-                // Define ApplePayShippingContactUpdate based on the selected shipping contact.
-                const update = {
-                };
-                session.completeShippingContactSelection(update);
-            };
-            // 사용자가 Touch ID, Face ID 또는 암호로 Apple Pay 결제를 승인할 때 시스템이 호출하는 이벤트 
-            session.onpaymentauthorized = (event)=>{
-                console.log(event);
+        // var merchantIdentifier = 'example.com.store';
+        // var promise = ApplePaySession.canMakePaymentsWithActiveCard(merchantIdentifier);
 
-                const result = {
-                    status: ApplePaySession.STATUS_SUCCESS
-                };
-                session.completePayment(result);
-            };
-            // 결제 UI가 닫힐 때 자동으로 호출되는 이벤트 핸들러
-            session.oncancel = (event)=>{
-            // Payment cancelled by WebKit
-                alert("창이 닫힙니다.");
-            };
-            session.begin();
+        // promise.then(function (canMakePayments) {
+        //     // Define ApplePayPaymentRequest
+        //     const request = {
+        //         countryCode: "US",
+        //         currencyCode: "USD",
+        //         merchantCapabilities: [
+        //             "supports3DS"
+        //         ],
+        //         supportedNetworks: [
+        //             "visa",
+        //             "masterCard",
+        //             "amex",
+        //             "discover"
+        //         ],
+        //         total: {
+        //             label: "Demo (Card is not charged)",
+        //             type: "final",
+        //             amount: "2000"
+        //         },
+        //         lineItems: [
+        //             {
+        //                 "label": "Bag Subtotal",
+        //                 "type": "final",
+        //                 "amount": "35.00"
+        //             },
+        //             {
+        //                 "label": "Free Shipping",
+        //                 "amount": "0.00",
+        //                 "type": "final"
+        //             },
+        //             {
+        //                 "label": "Estimated Tax",
+        //                 "amount": "3.06",
+        //                 "type": "final"
+        //             }
+        //         ]
+        //     };
+
+        //     const session = new ApplePaySession(3, request);
+        //     console.log(session);
+        //     // 지불 명세서를 표시할 때 시스템이 호출하는 이벤트 핸들러
+        //     session.onvalidatemerchant = async (event)=>{
+        //         console.log("onvalidatemerchant ===> " + event);
+
+        //         session.completeMerchantValidation(session);
+        //     };
+        //     // 사용자가 새 결제 수단을 선택할 때 호출
+        //     session.onpaymentmethodselected = (event)=>{
+        //         const update = {
+        //         };
+        //         // 30초 시간 초과 전에 호출하여 응답
+        //         session.completePaymentMethodSelection(update);
+        //     };
+        //     // 사용자가 배송 방법을 선택할 때 호출할 이벤트 핸들러
+        //     session.onshippingmethodselected = (event)=>{
+        //         const update = {
+        //         };
+        //         // 30초 시간 초과 전에 호출하여 응답
+        //         session.completeShippingMethodSelection(update);
+        //     };
+        //     // 사용자가 지불 명세서에서 배송 연락처를 선택할 때 호출할 이벤트
+        //     session.onshippingcontactselected = (event)=>{
+        //         // Define ApplePayShippingContactUpdate based on the selected shipping contact.
+        //         const update = {
+        //         };
+        //         session.completeShippingContactSelection(update);
+        //     };
+        //     // 사용자가 Touch ID, Face ID 또는 암호로 Apple Pay 결제를 승인할 때 시스템이 호출하는 이벤트 
+        //     session.onpaymentauthorized = (event)=>{
+        //         console.log(event);
+
+        //         const result = {
+        //             status: ApplePaySession.STATUS_SUCCESS
+        //         };
+        //         session.completePayment(result);
+        //     };
+        //     // 결제 UI가 닫힐 때 자동으로 호출되는 이벤트 핸들러
+        //     session.oncancel = (event)=>{
+        //     // Payment cancelled by WebKit
+        //         alert("창이 닫힙니다.");
+        //     };
+        //     session.begin();
             
-        });
+        // });
 
     }
     document.getElementById('applePay').addEventListener('click', ()=>{
