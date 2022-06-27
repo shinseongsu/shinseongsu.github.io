@@ -111,7 +111,7 @@ order: 1
                 ]
             };
 
-            const session = new ApplePaySession(12, request);
+            const session = new ApplePaySession(3, request);
             console.log(session);
             // 지불 명세서를 표시할 때 시스템이 호출하는 이벤트 핸들러
             session.onvalidatemerchant = async (event)=>{
