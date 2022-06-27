@@ -72,6 +72,17 @@ order: 1
             console.log(promise);
             console.log("====> canMakePaymentsWithActiveCard 사용 가능");
 
+            promise.then((canMakePayments) => {
+                if (canMakePayments) {
+                    console.log(canMakePayments);
+                }
+            });
+
+            promise.catch((error) => {
+                console.log(error);
+                console.log("promise 중 에러가 발생하였습니다.");
+            });
+
         } else {
             alert("ApplePaySession이 session이 존재 하지 않다.");
         }
