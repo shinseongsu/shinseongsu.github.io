@@ -145,10 +145,7 @@ order: 1
         session.onvalidatemerchant = async (event)=>{
             console.log("onvalidatemerchant ===> " + event);
 
-            const merchantSession = await validateMerchant();
-            console.log(merchantSession);
-            
-            session.completeMerchantValidation(merchantSession);
+            session.completeMerchantValidation(session);
         };
         // 사용자가 새 결제 수단을 선택할 때 호출
         session.onpaymentmethodselected = (event)=>{
