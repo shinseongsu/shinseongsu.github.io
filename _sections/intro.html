@@ -51,7 +51,8 @@ order: 1
                         ApplePaySession.openPaymentSetup(merchantIdentifier)
                         .then(function(success) {
                             if (success) {
-                                onApplePayButtonClicked();
+                                alert("실행 가능합니다.");
+                         //       onApplePayButtonClicked();
                             } else {
                                 alert("설정 불러오는데 실패하였습니다.");
                             }
