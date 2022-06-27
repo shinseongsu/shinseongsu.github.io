@@ -265,6 +265,21 @@ order: 1
                 if (canMakePayments) {
                     console.log(canMakePayments);
                 } else {
+                    // 지불 수단 열기
+                    if (ApplePaySession.openPaymentSetup) {
+                        ApplePaySession.openPaymentSetup(merchantIdentifier)
+                            .then(function(success) {
+                                if(success) {
+                                    console.log('설정 열기 성공');
+                                } else {
+                                    console.log('설정 열기 실패');
+                                }
+                                
+                            }).catch(function(e) {
+                                console.log(e + "에러가 발생하였습니다.");
+                            })  
+                    }    
+
                     console.log(canMakePayments);
                 }
                 applePaySession();
