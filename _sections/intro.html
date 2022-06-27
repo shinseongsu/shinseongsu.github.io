@@ -52,7 +52,6 @@ order: 1
                         .then(function(success) {
                             if (success) {
                                 alert("실행 가능합니다.");
-                         //       onApplePayButtonClicked();
                             } else {
                                 alert("설정 불러오는데 실패하였습니다.");
                             }
@@ -91,7 +90,7 @@ order: 1
                 type: "final",
                 amount: "2000"
             },
-            "lineItems": [
+            lineItems: [
                 {
                     "label": "Bag Subtotal",
                     "type": "final",
@@ -156,7 +155,7 @@ order: 1
     }
     document.getElementById('applePay').addEventListener('click', ()=>{
         console.log('clickd');
-        onApplePayButtonClicked();
+        buttonClick();
     });
 
   </script>
