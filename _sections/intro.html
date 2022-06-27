@@ -32,7 +32,7 @@ order: 1
   </style>
   
   <div id="payDiv">
-    <apple-pay-button id="applePay" buttonstyle="black" type="plain" locale="en"></apple-pay-button>
+    <!-- <apple-pay-button id="applePay" buttonstyle="black" type="plain" locale="en"></apple-pay-button> -->
     <apple-pay-button id="applePay2" buttonstyle="black" type="plain" locale="en"></apple-pay-button>
   </div>
 
@@ -89,7 +89,24 @@ order: 1
                 label: "Demo (Card is not charged)",
                 type: "final",
                 amount: "2000"
-            }
+            },
+            "lineItems": [
+                {
+                    "label": "Bag Subtotal",
+                    "type": "final",
+                    "amount": "35.00"
+                },
+                {
+                    "label": "Free Shipping",
+                    "amount": "0.00",
+                    "type": "final"
+                },
+                {
+                    "label": "Estimated Tax",
+                    "amount": "3.06",
+                    "type": "final"
+                }
+            ]
         };
         // 세션 생성
         const session = new ApplePaySession(3, request);
