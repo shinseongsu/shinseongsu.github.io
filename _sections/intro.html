@@ -51,13 +51,13 @@ order: 1
                         ApplePaySession.openPaymentSetup(merchantIdentifier)
                         .then(function(success) {
                             if (success) {
-                                // Open payment setup successful
+                                onApplePayButtonClicked();
                             } else {
-                                // Open payment setup failed
+                                alert("설정 불러오는데 실패하였습니다.");
                             }
                         })
                         .catch(function(e) {
-                            // Open payment setup error handling
+                            alert(e + "에러가 발생하였습니다.");
                         });
                     }
                 }
