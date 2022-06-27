@@ -298,7 +298,7 @@ order: 1
 
 
     function onApplePayButtonClicked2() {
-        var merchantIdentifier = 'com.bwc.took';
+        var merchantIdentifier = 'example.com.store';
         var promise = ApplePaySession.canMakePaymentsWithActiveCard(merchantIdentifier);
 
         promise.then(function (canMakePayments) {
