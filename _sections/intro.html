@@ -72,22 +72,24 @@ order: 1
             promise.then(function (canMakePayments) {
                 if (canMakePayments) {
                     // Display Apple Pay Buttons here…
+                    onApplePayButtonClicked();
                 } else {
                     // Check for the existence of the openPaymentSetup method.
-                    if (ApplePaySession.openPaymentSetup) {
-                        // Display the Set up Apple Pay Button here…             
-                        ApplePaySession.openPaymentSetup(merchantIdentifier)
-                        .then(function(success) {
-                            if (success) {
-                                alert("실행 가능합니다.");
-                            } else {
-                                alert("설정 불러오는데 실패하였습니다.");
-                            }
-                        })
-                        .catch(function(e) {
-                            alert(e + "에러가 발생하였습니다.");
-                        });
-                    }
+                    // if (ApplePaySession.openPaymentSetup) {
+                    //     // Display the Set up Apple Pay Button here…             
+                    //     ApplePaySession.openPaymentSetup(merchantIdentifier)
+                    //     .then(function(success) {
+                    //         if (success) {
+                    //             alert("실행 가능합니다.");
+                    //         } else {
+                    //             alert("설정 불러오는데 실패하였습니다.");
+                    //         }
+                    //     })
+                    //     .catch(function(e) {
+                    //         alert(e + "에러가 발생하였습니다.");
+                    //     });
+                    // }
+                    onApplePayButtonClicked();
                 }
             }); 
         }
