@@ -300,10 +300,10 @@ order: 1
     function onApplePayButtonClicked2() {
         if(!window.ApplePaySession) return;
 
-        // var merchantIdentifier = 'example.com.store';
-        // var promise = ApplePaySession.canMakePaymentsWithActiveCard(merchantIdentifier);
+        var merchantIdentifier = 'merchant.kr.co.bluewalnut.CreamPayTest';
+        var promise = ApplePaySession.canMakePaymentsWithActiveCard(merchantIdentifier);
 
-        // promise.then(function (canMakePayments) {
+        promise.then(function (canMakePayments) {
             const request = {
                 countryCode: "US",
                 currencyCode: "USD",
@@ -384,7 +384,7 @@ order: 1
             };
             session.begin();
             
-        // });
+        });
     }
 
     // document.getElementById('applePay').addEventListener('click', ()=>{
