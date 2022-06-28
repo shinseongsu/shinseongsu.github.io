@@ -325,10 +325,10 @@ order: 1
             session.begin();
             
             session.onvalidatemerchant = (event) => {
-                var theValidationURL = event.theValidationURL;
+                var theValidationURL = event.validationURL;
                 
                 console.log(event);
-                console.log("validateURL ==> " + theValidationURL);
+                console.log("validateURL ==> " + validationURL);
 
                 validateTheSession(theValidationURL, (merchantSession) => {
                     session.completeMerchantValidation(merchantSession);
