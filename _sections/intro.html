@@ -299,7 +299,8 @@ order: 1
     function onApplePayButtonClicked2() {
         var merchantIdentifier = 'merchant.kr.co.bluewalnut.CreamPayTest';
 
-        if(window.ApplePaySession && ApplePaySession.canMakePaymentsWithActiveCard(merchantIdentifier)) {
+        if(window.ApplePaySession 
+            && ApplePaySession.canMakePaymentsWithActiveCard(merchantIdentifier)) {
 
             const request = {
                 countryCode: "US",
@@ -321,9 +322,13 @@ order: 1
             };
 
             const session = new ApplePaySession(6, request);
+            session.begin();
             
             session.onvalidatemerchant = (event) => {
                 var theValidationURL = event.theValidationURL;
+
+                console.log("validateURL ==> " + theValidationURL);
+
                 validateTheSession(theValidationURL, (merchantSession) => {
                     session.completeMerchantValidation(merchantSession);
                 });
