@@ -324,11 +324,12 @@ order: 1
             const session = new ApplePaySession(6, request);
             session.begin();
             
+            // mid 확인
             session.onvalidatemerchant = (event) => {
                 var theValidationURL = event.validationURL;
                 
                 console.log(event);
-                console.log("validateURL ==> " + validationURL);
+                console.log("validateURL ==> " + theValidationURL);
 
                 validateTheSession(theValidationURL, (merchantSession) => {
                     session.completeMerchantValidation(merchantSession);
