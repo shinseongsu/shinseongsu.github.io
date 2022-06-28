@@ -343,16 +343,14 @@ order: 1
     }
 
     function validateTheSession(validationUrl, callback) {
-        fetch(validationUrl, {
-            method: "POST",
+        fetch("https://vercel.com/shinseongsu/nextapi/api/user", {
+            method: "GET",
             headers: {
                 "Content-Type": "application/json",
                 "Access-Control-Allow-Origin": "*"
             },
             body: JSON.stringify({
-                merchantIdentifier: 'merchant.kr.co.bluewalnut.CreamPayTest',
-                domainName: "tookmoe.bluewalnut.co.kr",
-                displayName: "bluewalnut.took"
+                apiUrl :validationUrl
             }),
         })
         .then((response) => { 
