@@ -343,16 +343,7 @@ order: 1
     }
 
     function validateTheSession(validationUrl, callback) {
-        fetch("https://vercel.com/shinseongsu/nextapi/api/user", {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "*"
-            },
-            body: JSON.stringify({
-                apiUrl :validationUrl
-            }),
-        })
+        fetch(`https://vercel.com/shinseongsu/nextapi/api/user?apiUrl=${validationUrl}`)
         .then((response) => { 
             console.log(response);
             callback(response.data);
