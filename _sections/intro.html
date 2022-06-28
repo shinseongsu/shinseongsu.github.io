@@ -343,14 +343,19 @@ order: 1
     }
 
     function validateTheSession(validationUrl, callback) {
-        fetch(`https://vercel.com/shinseongsu/nextapi/api/user/1`, {
-            method: 'POST',
+        fetch(validationUrl, {
+            method: "POST",
             headers: {
-                'Content-Type': 'application/json',
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*"
             },
-            body: JSON.stringify({apiUrl : validationUrl}),
             mode: 'cors',
-            credentials: 'include' // 여기를 추가
+            credentials: 'include',
+            body: JSON.stringify({
+                merchantIdentifier: 'merchant.kr.co.bluewalnut.CreamPayTest',
+                domainName: "tookmoe.bluewalnut.co.kr",
+                displayName: "bluewalnut.took"
+            }),
         })
         .then((response) => { 
             console.log(response);
