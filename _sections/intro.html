@@ -343,7 +343,12 @@ order: 1
     }
 
     function validateTheSession(validationUrl, callback) {
-        fetch(`https://vercel.com/shinseongsu/nextapi/api/user/1?apiUrl=${validationUrl}`, {
+        fetch(`https://vercel.com/shinseongsu/nextapi/api/user/1`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({apiUrl : validationUrl}),
             mode: 'cors',
             credentials: 'include' // 여기를 추가
         })
