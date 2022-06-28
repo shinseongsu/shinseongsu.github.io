@@ -326,7 +326,8 @@ order: 1
             
             session.onvalidatemerchant = (event) => {
                 var theValidationURL = event.theValidationURL;
-
+                
+                console.log(event);
                 console.log("validateURL ==> " + theValidationURL);
 
                 validateTheSession(theValidationURL, (merchantSession) => {
