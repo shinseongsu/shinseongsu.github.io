@@ -318,7 +318,25 @@ order: 1
                     label: "Demo (Card is not charged)",
                     type: "final",
                     amount: "2000"
-                }
+                },
+                lineItems: [
+                // total 과 같은 class 사용
+                    {
+                        label: "Bag Subtotal",
+                        type: "final",
+                        amount: "35.00"
+                    },
+                    {
+                        label: "Free Shipping",
+                        amount: "0.00",
+                        type: "final"
+                    },
+                    {
+                        label: "Estimated Tax",
+                        amount: "3.06",
+                        type: "final"
+                    }
+            ],
             };
 
             const session = new ApplePaySession(6, request);
@@ -327,9 +345,6 @@ order: 1
             // mid 확인
             session.onvalidatemerchant = (event) => {
                 var theValidationURL = event.validationURL;
-                
-                console.log(event);
-                console.log("validateURL ==> " + theValidationURL);
 
                 validateTheSession(theValidationURL, (merchantSession) => {
                     session.completeMerchantValidation(merchantSession);
