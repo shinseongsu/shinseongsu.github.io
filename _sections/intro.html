@@ -301,6 +301,22 @@ order: 1
                     "postalAddress",
                     // 3번전 부터 "phoneticName"
                 ],
+                billingContact: {
+                    phoneNumber: "01020834409",  // 연락처 전화번호
+                    emailAddress: "tlstjdtn321@naver.com",  // 연락처의 이메일 주소
+                    givenName: "성수",        // 연락처의 이름,
+                    familyName: "신",       // 연락처의 성입니다.
+                    phoneticGivenName: "성수",  // 연락처 이름의 음성 철자입니다. - 3버전부터
+                    phoneticFamilyName: "신",   // 연락처 성의 음성 철자입니다.  - 3번전부터
+                    addressLines: [],       // 연락처 주소의 거리 부분
+                    subLocality: "경기도",           // 일반적으로 우편 주소에서 도시 또는 마을 수준
+                    locality: "화성시",     // 소재지
+                    postalCode: "18321",     // 우편번호
+                    subAdministrativeArea: "",  // 우편 주소의 하위 행정 구역
+                    administrativeArea: "",   // 행정구역
+                    country: "korea",   // 국가
+                    countryCode: "KR"     // 국가 코드
+                },
             };
 
             const session = new ApplePaySession(6, request);
@@ -315,6 +331,7 @@ order: 1
                 });
             };
             
+        
             
         } else {
             alert("Apple Session 생성 실패");
