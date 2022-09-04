@@ -31,7 +31,7 @@ order: 1
   
 <div id="payDiv">
     <apple-pay-button id="applePay2" buttonstyle="black" type="plain" locale="en"></apple-pay-button>
-    <p>version 1.4</p> 
+    <p>version 1.1</p> 
 </div>
 
 
@@ -95,7 +95,7 @@ order: 1
                     emailAddress: "toss123@toss.com"
                 },
                 shippingContactEditingMode: "storePickup",          // 배송 편집 불가
-                ApplePayShippingContactEditingMode: "storePickup"
+                billingContactEditingMode: "storePickup"
             };
 
             const session = new ApplePaySession(6, request);
