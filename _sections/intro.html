@@ -31,7 +31,9 @@ order: 1
   
 <div id="payDiv">
     <apple-pay-button id="applePay2" buttonstyle="black" type="plain" locale="en"></apple-pay-button>
+    <p>version 1.2</p> 
 </div>
+
 
 
 
@@ -94,7 +96,7 @@ order: 1
                     phoneNumber: "+821028735678",
                     emailAddress: "toss123@toss.com"
                 },
-                ApplePayShippingContactEditingMode: "enabled"
+                ApplePayShippingContactEditingMode: "storePickup"
             };
 
             const session = new ApplePaySession(6, request);
