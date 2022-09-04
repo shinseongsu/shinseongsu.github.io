@@ -12,54 +12,28 @@ order: 1
   <p>Adapted for Jekyll by <a href=https://chrisbobbe.github.io/>Chris Bobbe</a>. Get started on <a href="https://github.com/chrisbobbe/jekyll-theme-prologue">GitHub!</a></p>
 </header>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0-alpha.1/axios.min.js"></script>
+
+
+
 
 <script src="https://applepay.cdn-apple.com/jsapi/v1/apple-pay-sdk.js"></script>
 
-
-  <style>
-  apple-pay-button {
-    --apple-pay-button-width: 300px;
-    --apple-pay-button-height: 60px;
-    --apple-pay-button-border-radius: 3px;
-    --apple-pay-button-padding: 0px 0px;
-    --apple-pay-button-box-sizing: border-box;
-  }
-  
-
-    div.main {
-        width: 350px;
+<style>
+    apple-pay-button {
+        --apple-pay-button-width: 300px;
+        --apple-pay-button-height: 60px;
+        --apple-pay-button-border-radius: 3px;
+        --apple-pay-button-padding: 0px 0px;
+        --apple-pay-button-box-sizing: border-box;
     }
-
-    .ap {
-           border: 0;
-           width: 250px;
-           height: auto;
-           min-height: 55px;
-           padding: 0px;
-           margin-bottom: 12px;
-       }
-
-        input {
-            border: 1px solid black;
-            font-size: 14px;
-            padding: 3px;
-            width: 250px;
-            margin-bottom: 12px;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        textarea {
-            border: 1px solid black;
-            width: 100%;
-        }
-  </style>
+</style>
   
-  <div id="payDiv">
+<div id="payDiv">
     <apple-pay-button id="applePay2" buttonstyle="black" type="plain" locale="en"></apple-pay-button>
-  </div>
+</div>
+
+
 
   <script>
 
@@ -128,15 +102,16 @@ order: 1
             // mid 확인
             session.onvalidatemerchant = (event) => {
                 var theValidationURL = event.validationURL;
-                
-                console.log(event);
-                console.log("validateURL ==> " + theValidationURL);
 
                 validateTheSession(theValidationURL, (merchantSession) => {
                     session.completeMerchantValidation(merchantSession);
                 });
             };
             
+            session.onpaymentmethodselected = (event) => {
+                console.log(event.paymentMethod);
+            }
+        
             
         } else {
             alert("Apple Session 생성 실패");
@@ -144,7 +119,7 @@ order: 1
     }
 
     function validateTheSession(validationUrl, callback) {
-        fetch(`https://vercel.com/shinseongsu/nextapi/api/user/1`, {
+        fetch(`http://localhost:3000/api/users`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
